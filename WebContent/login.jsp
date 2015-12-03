@@ -18,7 +18,7 @@
      				<tr>
      					<td class="td_prompt">
      						username:</td>
-     						<td colspan=2><input name="username" type="text" required="required" pattern="[\S+]" title="Blank is not allowed."></td>
+     						<td colspan=2><input name="username" type="text" required="required" pattern="[\S]+" title="Blank is not allowed."></td>
      						<tr>
      						<td class="td_prompt">password:</td>
      						<td colspan=2>

@@ -7,13 +7,13 @@ import java.sql.Statement;
 public class SqlCtrl {
 	
 	private static String user = "root";
-	private static String pwd = "";
+	private static String pwd = "root";
 	
 	public static Connection getCon() {
 		Connection con = null;
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/student", user, pwd);
+			Class.forName("com.mysql.jdbc.Driver");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/student", user, pwd);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,16 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@page import = "com.stu.servlet.*" %>
-<%@page import = "com.stu.ctrl.*" %>
-<%@page import = "com.stu.model.*" %>
-<%@page import = "java.util.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<%@page import="com.stu.model.*"%>
+<%@page import="com.stu.servlet.*"%>
+<%@page import="com.stu.ctrl.*"%>
+<%@page import="java.util.*"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>login success!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Insert title here</title>
 <style>
 body{
+                    /*background-image: url("http://img2.xue163.com/img1.pconline.com.cn/piclib/200906/05/batch/1/34512/1244162971339xo0exzw8lt.jpg");*/
                     background-image: url("css/2.jpg");
                     background-attachment: fixed;
                     background-repeat: no-repeat;
@@ -75,42 +76,32 @@ body{
 </style>
 </head>
 <body>
-<input type="button" value="退出登录"style="height:30px;width:80px" onclick="window.location='exit'">
-<input type="button" value="查找朋友"style="height:30px;width:80px" onclick="window.location='friendfind.jsp'">
-<input type="button" value="消息中心"style="height:30px;width:80px" onclick="window.location='message.jsp'">
-<%
-Account account = (Account) session.getAttribute("account");
-List <Account> listA = FriendReqCtrl.getfriendReqByTee(account.getUser_id());
-out.println("<text style=\"color:white\">你有" + listA.size() + "条消息</text>");
-%>
-<input type="button" value="我的朋友"style="height:30px;width:80px" onclick="window.location='showfriends.jsp'"></br>
 <center>
-    <%
-        List<Post> list = PostCtrl.getPostList();
-        out.println("<table>");
-        for (Post p : list) {
-            out.print(
-                    "<table frame=\"box\">"+
-                    "<form action=\"singlePost.jsp\"" + " method=\"get\"" + ">"  + 
-                    "<input type=hidden  name=post_id value="+ p.getPost_id() +">" + 
-                    "<tr>"+
-                     "<td class=user>" + "Post Name : " + p.getPost_title() +"</td>"+
-                     "<td class=user>" + "PostOwner : " + AccountCtrl.getAccountById(p.getUser_id()).getUsername() +"</td>"+
-                    "</tr>"+
-                    "<tr><td>" +
-                    "<input type=\"submit\" value=\"See it!\" >" +
-                    "</td></tr>" +
-                    "</form>"
-            );
-        }
-        out.println("</table>");
-    %>
-      <form action="NewPost" align="center">
-            <input type="text" name="newTheme" required="required"></br>
+<%
+    Post p = PostCtrl.getPostById((Integer.parseInt(request.getParameter("post_id"))));
+    out.println("<table>");
+    out.print("<tr>"+
+            "<td class=user>" + AccountCtrl.getAccountById(p.getUser_id()).getUsername() +"</td>"+
+            "<td class=comment>" + p.getPost_title() +"</td>"+
+            "</tr>"
+        );
+    
+    List <Comment> list = CommentCtrl.getCommentList(p);
+    for(Comment comment : list) {
+        out.print("<tr>"+
+                    "<td class=user>" + AccountCtrl.getAccountById(comment.getUser_id()).getUsername() +"</td>"+
+                    "<td class=comment>" +  comment.getContent() +"</td>"+
+                    "</tr>"
+                );
+    }
+    out.println("</table>");
+%>
+      <form action="AddComment" align="center" method="post">
+            <input type="hidden" name="post_id" value=<%= p.getPost_id()%>></input>
             <b class="comment">Comment Here:</b>
-            <textarea placeholder="You can post from here" class="reply" name="comment" rows=15 cols="50"></textarea></br>
-             <input type="checkbox" name="anonymous"><b  class="comment">Anonymous</b><input type="submit" class="button">
+            <textarea placeholder="You can post from here" class="reply" name="content" rows=15 cols="50" required="required"></textarea></br>
+            <input type="checkbox" name="anonymous"><b  class="comment">Anonymous</b><input type="submit" class="button">
         </form>
-    </center>
+</center>
 </body>
 </html>

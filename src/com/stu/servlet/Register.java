@@ -38,20 +38,23 @@ public class Register extends HttpServlet {
 		String username = req.getParameter("username");
 		String pwd = req.getParameter("pwd");
 		Account account = new Account();
-		account.setName(username);
+		account.setUsername(username);
 		account.setPwd(pwd);
 		
 		/**
 		 * 先检查用户是否存在再添加
 		 */
+		System.out.println("Register : " + AccountCtrl.isAccountNameExist(account));
+		System.out.println("Register : " + account.getUsername());
 		if(!AccountCtrl.isAccountNameExist(account)) {
+			
 			AccountCtrl.addAccount(account);
-			String login_suc = "registerSuccess.jsp";
-			session.setAttribute("account", account);
+			String login_suc = "login.jsp";
+//			session.setAttribute("account", account);
 			resp.sendRedirect(login_suc);
 		} else {
 			String login_fail = "registerFail.jsp";
-			session.setAttribute("account", account);
+//			session.setAttribute("account", account);
 			resp.sendRedirect(login_fail);			
 		}
 		return;

@@ -1,5 +1,7 @@
 package com.stu.servlet;
 
+import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,7 +35,6 @@ public class Login extends HttpServlet {
 		HttpSession session = req.getSession();
 		String username = req.getParameter("username");
 		String pwd = req.getParameter("pwd");
-		System.out.println(123456789);
 		/*
 		if ("admin".equals(username) && "123456".equals(pwd)) {
 			String login_admin = "admin.jsp";
@@ -42,16 +43,17 @@ public class Login extends HttpServlet {
 			return ;
 		}*/
 		Account account = new Account();
-		account.setName(username);
+		account.setUsername(username);
 		account.setPwd(pwd);
 		// 用户名存在 且 密码正确
-		if(AccountCtrl.isAccountNameExist(account) & AccountCtrl.checkAccount(account)) {	
+		if(AccountCtrl.isAccountNameExist(account) & AccountCtrl.checkAccount(account)) {
+			account.setUser_id(AccountCtrl.getAccountByName(username).getUser_id());
 			resp.sendRedirect("post.jsp");
 		} else {
 			String login_fail = "loginFail.jsp";
-			session.setAttribute("account", account);
 			resp.sendRedirect(login_fail);
 		}
+		session.setAttribute("account", account);
 	}
 
 	/**

@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Comment {
-	private int comment_id;
 	private int post_id;
 	private int user_id;
 	private String comment_date;
@@ -25,17 +24,11 @@ public class Comment {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public int getComment_id() {
-		return comment_id;
-	}
 	public int getPost_id() {
 		return post_id;
 	}
 	public int getUser_id() {
 		return user_id;
-	}
-	public void setComment_id(int comment_id) {
-		this.comment_id = comment_id;
 	}
 	public void setPost_id(int post_id) {
 		this.post_id = post_id;
