@@ -75,7 +75,7 @@ body{
 </style>
 </head>
 <body>
-<input type="button" value="退出登录"style="height:30px;width:80px" onclick="window.location='exit'">
+<input type="button" value="退出登录"style="height:30px;width:80px" onclick="window.location='login.jsp'">
 <input type="button" value="查找朋友"style="height:30px;width:80px" onclick="window.location='friendfind.jsp'">
 <input type="button" value="消息中心"style="height:30px;width:80px" onclick="window.location='message.jsp'">
 <%
@@ -83,10 +83,18 @@ Account account = (Account) session.getAttribute("account");
 List <Account> listA = FriendReqCtrl.getfriendReqByTee(account.getUser_id());
 out.println("<text style=\"color:white\">你有" + listA.size() + "条消息</text>");
 %>
-<input type="button" value="我的朋友"style="height:30px;width:80px" onclick="window.location='showfriends.jsp'"></br>
+<input type="button" value="我的朋友"style="height:30px;width:80px" onclick="window.location='showfriends.jsp'">
+<button style="height:30px;width:80px" onclick="window.location='ChangeVisible'">
+<%if(account.getVisible() == Account.VISIBLE){
+        out.print("变为隐身");
+    } else {
+    	out.print("取消隐身");
+    }
+	%>
+</button></br>
 <center>
     <%
-        List<Post> list = PostCtrl.getPostList();
+        List<Post> list = PostCtrl.getVisiblePost(account);
         out.println("<table>");
         for (Post p : list) {
             out.print(

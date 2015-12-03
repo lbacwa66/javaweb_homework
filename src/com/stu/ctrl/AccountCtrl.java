@@ -17,7 +17,7 @@ public class AccountCtrl {
 		ResultSet resultSet = null;
 		PreparedStatement ps = null;
 		try {
-			ps = con.prepareStatement("SELECT * FROM ACCOUNT");
+			ps = con.prepareStatement("SELECT * FROM account");
 			resultSet = ps.executeQuery();
 			while(resultSet.next()) {
 				++ counter;
@@ -32,7 +32,7 @@ public class AccountCtrl {
 		Connection con = SqlCtrl.getCon();
 		PreparedStatement ps = null;
 		try {
-			ps = con.prepareStatement("INSERT INTO ACCOUNT VALUES(?, ?, ?)");
+			ps = con.prepareStatement("INSERT INTO account VALUES(?, ?, ?)");
 			ps.setInt(1, ++counter);
 			ps.setString(2, account.getUsername());
 			ps.setString(3, account.getPwd());
@@ -51,7 +51,7 @@ public class AccountCtrl {
 		PreparedStatement ps = null;
 		Account account = null;
 		try {
-			ps = con.prepareStatement("SELECT * FROM ACCOUNT WHERE USERNAME = ?");
+			ps = con.prepareStatement("SELECT * FROM account WHERE USERNAME = ?");
 			ps.setString(1, name);
 			resultSet = ps.executeQuery();
 			account = new Account();
@@ -61,6 +61,7 @@ public class AccountCtrl {
 			account.setUser_id(resultSet.getInt("USER_ID"));
 			account.setUsername(resultSet.getString("USERNAME"));
 			account.setPwd(resultSet.getString("PWD"));
+			account.setVisible(resultSet.getInt("VISIBLE"));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,19 +75,19 @@ public class AccountCtrl {
 		ResultSet resultSet = null;
 		PreparedStatement ps = null;
 		try {
-			ps = con.prepareStatement("SELECT * FROM ACCOUNT WHERE USERNAME=?");
+			ps = con.prepareStatement("SELECT * FROM account WHERE username=?");
 			ps.setString(1, account.getUsername());
 			resultSet = ps.executeQuery();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		try {
-			return resultSet.next();
+			resultSet.next();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	// 检查用户名的名字和密码是否对应
@@ -95,7 +96,7 @@ public class AccountCtrl {
 		ResultSet resultSet = null;
 		PreparedStatement ps = null;
 		try {
-			ps = con.prepareStatement("SELECT * FROM ACCOUNT WHERE USERNAME=? and PWD=?");
+			ps = con.prepareStatement("SELECT * FROM account WHERE USERNAME=? and PWD=?");
 			ps.setString(1, account.getUsername());
 			ps.setString(2, account.getPwd());
 			resultSet = ps.executeQuery();
@@ -117,7 +118,7 @@ public class AccountCtrl {
 		PreparedStatement ps = null;
 		Account account = null;
 		try {
-			ps = con.prepareStatement("SELECT * FROM ACCOUNT WHERE USER_ID = ?");
+			ps = con.prepareStatement("SELECT * FROM account WHERE USER_ID = ?");
 			ps.setInt(1, id);
 			resultSet = ps.executeQuery();
 			account = new Account();
@@ -127,6 +128,7 @@ public class AccountCtrl {
 			account.setUser_id(resultSet.getInt("USER_ID"));
 			account.setUsername(resultSet.getString("USERNAME"));
 			account.setPwd(resultSet.getString("PWD"));
+			account.setVisible(resultSet.getInt("VISIBLE"));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -141,13 +143,14 @@ public class AccountCtrl {
 		ResultSet resultSet = null;
 		List<Account> list = new ArrayList<Account>();
 		try {
-			ps = con.prepareStatement("SELECT * FROM ACCOUNT ORDER BY USER_ID");
+			ps = con.prepareStatement("SELECT * FROM account ORDER BY USER_ID");
 			resultSet = ps.executeQuery();
 			while (resultSet.next()) {
 				Account account = new Account();
 				account.setUser_id(resultSet.getInt("USER_ID"));
 				account.setUsername(resultSet.getString("USERNAME"));
 				account.setPwd(resultSet.getString("PWD"));
+				account.setVisible(resultSet.getInt("VISIBLE"));
 				list.add(account);
 			}
 		} catch (Exception e) {
@@ -156,5 +159,49 @@ public class AccountCtrl {
 		SqlCtrl.closeStatement(ps);
 		SqlCtrl.closeCon(con);
 		return list;
+	}
+	
+	// 返回所有用户
+	public static List<Account> getVISIBLEAccountList() {
+		Connection con = SqlCtrl.getCon();
+		PreparedStatement ps = null;
+		ResultSet resultSet = null;
+		List<Account> list = new ArrayList<Account>();
+		try {
+			ps = con.prepareStatement("SELECT * FROM account where VISIBLE=? ORDER BY USER_ID");
+			ps.setInt(1, Account.VISIBLE);
+			resultSet = ps.executeQuery();
+			while (resultSet.next()) {
+				Account account = new Account();
+				account.setUser_id(resultSet.getInt("USER_ID"));
+				account.setUsername(resultSet.getString("USERNAME"));
+				account.setPwd(resultSet.getString("PWD"));
+				account.setVisible(resultSet.getInt("VISIBLE"));
+				list.add(account);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		SqlCtrl.closeStatement(ps);
+		SqlCtrl.closeCon(con);
+		return list;
+	}
+	
+	// 返回所有用户
+	public static void changeVisible(Account account) {
+		Connection con = SqlCtrl.getCon();
+		PreparedStatement ps = null;
+		account.setVisible(account.getVisible() == Account.VISIBLE ? Account.UNVISIBLE : account.VISIBLE);
+		try {
+			ps = con.prepareStatement("UPDATE account set VISIBLE=? where USER_ID=?");
+			ps.setInt(1, account.getVisible());
+			ps.setInt(2, account.getUser_id());
+			ps.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {			
+			SqlCtrl.closeStatement(ps);
+			SqlCtrl.closeCon(con);
+		}
 	}
 }

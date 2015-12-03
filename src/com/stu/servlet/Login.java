@@ -48,6 +48,7 @@ public class Login extends HttpServlet {
 		// 用户名存在 且 密码正确
 		if(AccountCtrl.isAccountNameExist(account) & AccountCtrl.checkAccount(account)) {
 			account.setUser_id(AccountCtrl.getAccountByName(username).getUser_id());
+			account = AccountCtrl.getAccountById(account.getUser_id());
 			resp.sendRedirect("post.jsp");
 		} else {
 			String login_fail = "loginFail.jsp";

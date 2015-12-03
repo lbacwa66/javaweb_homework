@@ -16,12 +16,12 @@ public class FriendReqCtrl {
 		PreparedStatement ps = null;
 		ResultSet resultSet = null;
 		try {
-			ps = con.prepareStatement("select REQ_TOR, REQ_TEE from FRIEND_REQ where REQ_TOR=? AND REQ_TEE=?");
+			ps = con.prepareStatement("select REQ_TOR, REQ_TEE from friend_req where REQ_TOR=? AND REQ_TEE=?");
 			ps.setInt(1, req_tor);
 			ps.setInt(2, req_tee);
 			resultSet = ps.executeQuery();
 			if (resultSet.next() == false) {;
-				ps = con.prepareStatement("INSERT INTO FRIEND_REQ(REQ_TOR, REQ_TEE, STATUS) VALUES(?, ?, ?)");
+				ps = con.prepareStatement("INSERT INTO friend_req(REQ_TOR, REQ_TEE, STATUS) VALUES(?, ?, ?)");
 				ps.setInt(1, req_tor);
 				ps.setInt(2, req_tee);
 				ps.setInt(3, Friend_req.WAITING);
@@ -40,7 +40,7 @@ public class FriendReqCtrl {
 		ResultSet resultSet = null;
 		List<Account> list = new ArrayList<>();
 		try {
-			ps = con.prepareStatement("select REQ_TOR from FRIEND_REQ where REQ_TEE=? and status=?");
+			ps = con.prepareStatement("select REQ_TOR from friend_req where REQ_TEE=? and status=?");
 			ps.setInt(1, req_tee);
 			ps.setInt(2, Friend_req.WAITING);
 			resultSet = ps.executeQuery();
@@ -64,7 +64,7 @@ public class FriendReqCtrl {
 		ResultSet resultSet = null;
 		List<Account> list = new ArrayList<>();
 		try {
-			ps = con.prepareStatement("select REQ_TOR from FRIEND_REQ where REQ_TEE=? and status=?");
+			ps = con.prepareStatement("select REQ_TOR from friend_req where REQ_TEE=? and status=?");
 			ps.setInt(1, req_tee);
 			ps.setInt(2, Friend_req.REFUSED);
 			resultSet = ps.executeQuery();
@@ -88,7 +88,7 @@ public class FriendReqCtrl {
 		ResultSet resultSet = null;
 		List<Account> list = new ArrayList<>();
 		try {
-			ps = con.prepareStatement("select REQ_TEE from FRIEND_REQ where REQ_TOR=? and status=?");
+			ps = con.prepareStatement("select REQ_TEE from friend_req where REQ_TOR=? and status=?");
 			ps.setInt(1, req_tor);
 			ps.setInt(2, Friend_req.REFUSED);
 			resultSet = ps.executeQuery();
@@ -111,7 +111,7 @@ public class FriendReqCtrl {
 		PreparedStatement ps = null;
 		ResultSet resultSet = null;
 		try {
-			ps = con.prepareStatement("delete from FRIEND_REQ where REQ_TOR=? AND REQ_TEE=?");
+			ps = con.prepareStatement("delete from friend_req where REQ_TOR=? AND REQ_TEE=?");
 			ps.setInt(1, req_tor);
 			ps.setInt(2, req_tee);
 			ps.execute();
@@ -127,7 +127,7 @@ public class FriendReqCtrl {
 		PreparedStatement ps = null;
 		ResultSet resultSet = null;
 		try {
-			ps = con.prepareStatement("update table FRIEND_REQ set status=? where REQ_TOR=? AND REQ_TEE=?");
+			ps = con.prepareStatement("update friend_req set status=? where REQ_TOR=? AND REQ_TEE=?");
 			ps.setInt(1, Friend_req.REFUSED);
 			ps.setInt(2, req_tor);
 			ps.setInt(3, req_tee);

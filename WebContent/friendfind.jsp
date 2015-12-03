@@ -12,11 +12,12 @@
 <link rel="stylesheet" type="text/css" href="css/friends.css">
 </head>
 <body>
+<input type="button" value="返回"style="height:30px;width:80px" onclick="window.location='post.jsp'">
      <center>
         <input type="text" id="content" />
         <button onclick="search()" value="search">Search</button>
         <%
-            List <Account> list = AccountCtrl.getAccountList();
+            List <Account> list = AccountCtrl.getVISIBLEAccountList();
         %>
         <ul id="demo">
         <%

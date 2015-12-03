@@ -20,7 +20,7 @@ public class CommentCtrl {
 		ResultSet resultSet = null;
 		PreparedStatement ps = null;
 		try {
-			ps = con.prepareStatement("SELECT * FROM ACCOUNT");
+			ps = con.prepareStatement("SELECT * FROM comment");
 			resultSet = ps.executeQuery();
 			while(resultSet.next()) {
 				++ counter;
@@ -37,7 +37,7 @@ public class CommentCtrl {
 		ResultSet resultSet = null;
 		List<Comment> list = new ArrayList<Comment>();
 		try {
-			ps = con.prepareStatement("select * from COMMENT where POST_ID=? ORDER BY COMMENT_DATE");
+			ps = con.prepareStatement("select * from comment where POST_ID=? ORDER BY COMMENT_DATE");
 			ps.setInt(1, post.getPost_id());
 			resultSet = ps.executeQuery();
 			while (resultSet.next()) {
@@ -62,7 +62,7 @@ public class CommentCtrl {
 		PreparedStatement ps = null;
 		ResultSet resultSet = null;
 		try {
-			ps = con.prepareStatement("INSERT INTO COMMENT VALUES(?, ?, ?, ?)");
+			ps = con.prepareStatement("INSERT INTO comment VALUES(?, ?, ?, ?)");
 			ps.setInt(1, comment.getPost_id());
 			ps.setString(2, comment.getContent());
 			ps.setInt(3, comment.getUser_id());

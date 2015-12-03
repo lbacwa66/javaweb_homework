@@ -4,6 +4,10 @@ public class Account {
 	private int user_id;
 	private String username;
 	private String pwd;
+	private int visible;
+	
+	public static int VISIBLE = 0;
+	public static int UNVISIBLE = 1;
 	
 	
 	public int getUser_id() {
@@ -24,5 +28,11 @@ public class Account {
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	public int getVisible() {
+		return visible;
+	}
+	public void setVisible(int visible) {
+		this.visible = visible;
 	}
 }

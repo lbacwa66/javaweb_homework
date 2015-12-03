@@ -13,6 +13,7 @@
 
 </head>
 <body>
+<input type="button" value="返回"style="height:30px;width:80px" onclick="window.location='post.jsp'">
      <center>
      <h1 style="color:white">以下用户申请成为你的好友</h1>
         <input type="text" id="content" />

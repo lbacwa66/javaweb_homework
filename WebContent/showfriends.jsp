@@ -12,6 +12,7 @@
 <link rel="stylesheet" type="text/css" href="css/friends.css">
 </head>
 <body>
+<input type="button" value="返回"style="height:30px;width:80px" onclick="window.location='post.jsp'">
     <center>
      <h1 style="color:white">你的好友现在有</h1>
         <input type="text" id="content" />
