@@ -76,6 +76,7 @@ body{
 </style>
 </head>
 <body>
+<input type="button" value="返回"style="height:30px;width:80px" onclick="window.location='post.jsp'">
 <center>
 <%
     Post p = PostCtrl.getPostById((Integer.parseInt(request.getParameter("post_id"))));
@@ -90,18 +91,23 @@ body{
     for(Comment comment : list) {
         out.print("<tr>"+
                     "<td class=user>" + AccountCtrl.getAccountById(comment.getUser_id()).getUsername() +"</td>"+
-                    "<td class=comment>" +  comment.getContent() +"</td>"+
+                    "<td class=comment>" +  comment.getContent());
+       if (comment.getPicture_id() != -1) {
+    	   out.print("<img src=" + "\"" + comment.getPicture_id() + ".jpg\"" + ">");
+       }
+        out.print("</td>"+
                     "</tr>"
                 );
     }
     out.println("</table>");
 %>
-      <form action="AddComment" align="center" method="post">
+      <form action="AddComment" align="center" method="post" enctype="multipart/form-data">
             <input type="hidden" name="post_id" value=<%= p.getPost_id()%>></input>
             <b class="comment">Comment Here:</b>
             <textarea placeholder="You can post from here" class="reply" name="content" rows=15 cols="50" required="required"></textarea></br>
             <input type="checkbox" name="anonymous"><b  class="comment">Anonymous</b><input type="submit" class="button">
-        </form>
+            <input type="file" name="file">
+      </form>
 </center>
 </body>
 </html>

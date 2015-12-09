@@ -1,8 +1,8 @@
--- MySQL dump 10.15  Distrib 10.0.21-MariaDB, for Linux (x86_64)
+-- MySQL dump 10.15  Distrib 10.0.20-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: student
 -- ------------------------------------------------------
--- Server version	10.0.21-MariaDB
+-- Server version	10.0.20-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -53,6 +53,7 @@ CREATE TABLE `comment` (
   `CONTENT` varchar(50) DEFAULT '',
   `USER_ID` int(11) NOT NULL DEFAULT '0',
   `COMMENT_DATE` varchar(50) NOT NULL DEFAULT '',
+  `PICTURE_ID` int(11) DEFAULT '-1',
   PRIMARY KEY (`POST_ID`,`USER_ID`,`COMMENT_DATE`),
   KEY `USER_ID` (`USER_ID`),
   CONSTRAINT `COMMENT_ibfk_2` FOREIGN KEY (`USER_ID`) REFERENCES `account` (`USER_ID`)
@@ -65,7 +66,7 @@ CREATE TABLE `comment` (
 
 LOCK TABLES `comment` WRITE;
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
-INSERT INTO `comment` VALUES (1,'123',1,'2015-11-28 15:25:20');
+INSERT INTO `comment` VALUES (1,'123',1,'2015-11-28 15:25:20',-1);
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,4 +161,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-03 19:56:57
+-- Dump completed on 2015-12-09 13:53:47

@@ -8,6 +8,7 @@ public class Comment {
 	private int user_id;
 	private String comment_date;
 	private String content;
+	private int picture_id;
 	
 	public String getComment_date() {
 		return comment_date;
@@ -35,5 +36,11 @@ public class Comment {
 	}
 	public void setUser_id(int user_id) {
 		this.user_id = user_id;
+	}
+	public int getPicture_id() {
+		return picture_id;
+	}
+	public void setPicture_id(int picture_id) {
+		this.picture_id = picture_id;
 	}
 }

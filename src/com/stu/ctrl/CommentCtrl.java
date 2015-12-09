@@ -14,6 +14,7 @@ import com.stu.model.Post;
 public class CommentCtrl {
 	
 	private static int counter = 0;
+	private static int pic_counter = 0;
 	
 	static {
 		Connection con = SqlCtrl.getCon();
@@ -24,6 +25,17 @@ public class CommentCtrl {
 			resultSet = ps.executeQuery();
 			while(resultSet.next()) {
 				++ counter;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			ps = con.prepareStatement("SELECT max(PICTURE_ID) as P FROM comment");
+			resultSet = ps.executeQuery();
+			while(resultSet.next()) {
+				pic_counter = resultSet.getInt("P");
+				break;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,6 +58,7 @@ public class CommentCtrl {
 				c.setComment_date(resultSet.getString("comment_date"));
 				c.setContent(resultSet.getString("content"));
 				c.setUser_id(resultSet.getInt("user_id"));
+				c.setPicture_id(resultSet.getInt("picture_id"));
 				list.add(c);
 			}
 		} catch (Exception e) {
@@ -62,16 +75,21 @@ public class CommentCtrl {
 		PreparedStatement ps = null;
 		ResultSet resultSet = null;
 		try {
-			ps = con.prepareStatement("INSERT INTO comment VALUES(?, ?, ?, ?)");
+			ps = con.prepareStatement("INSERT INTO comment VALUES(?, ?, ?, ?, ?)");
 			ps.setInt(1, comment.getPost_id());
 			ps.setString(2, comment.getContent());
 			ps.setInt(3, comment.getUser_id());
 			ps.setString(4, comment.getComment_date());
+			ps.setInt(5, comment.getPicture_id());
 			ps.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		SqlCtrl.closeStatement(ps);
 		SqlCtrl.closeCon(con);
+	}
+	
+	public static int newPicId() {
+		return ++ pic_counter;
 	}
 }
