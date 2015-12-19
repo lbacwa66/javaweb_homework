@@ -20,14 +20,16 @@ public class FriendsCtrl {
 			ps.setInt(2, user_id_2);
 			resultSet = ps.executeQuery();
 			if (resultSet.next() == false) {
-				ps = con.prepareStatement("INSERT INTO friend VALUES(?, ?)");
+				ps = con.prepareStatement("INSERT  INTO friend (USER_ID_1, USER_ID_2, status) VALUES(?, ?, ?)");
 				ps.setInt(1, user_id_1);
 				ps.setInt(2, user_id_2);
+				ps.setInt(3, 0);
 				ps.execute();
 				
-				ps = con.prepareStatement("INSERT INTO friend VALUES(?, ?)");
+				ps = con.prepareStatement("INSERT  INTO  friend (USER_ID_1, USER_ID_2, status) VALUES(?, ?, ?)");
 				ps.setInt(2, user_id_1);
 				ps.setInt(1, user_id_2);
+				ps.setInt(3, 0);
 				ps.execute();
 			}
 		} catch (Exception e) {

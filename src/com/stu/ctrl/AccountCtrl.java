@@ -32,10 +32,11 @@ public class AccountCtrl {
 		Connection con = SqlCtrl.getCon();
 		PreparedStatement ps = null;
 		try {
-			ps = con.prepareStatement("INSERT INTO account VALUES(?, ?, ?)");
+			ps = con.prepareStatement("INSERT INTO account (USER_ID, USERNAME, PWD, VISIBLE) VALUES(?, ?, ?, ?)");
 			ps.setInt(1, ++counter);
 			ps.setString(2, account.getUsername());
 			ps.setString(3, account.getPwd());
+			ps.setInt(4, Account.VISIBLE);
 			ps.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -75,19 +76,22 @@ public class AccountCtrl {
 		ResultSet resultSet = null;
 		PreparedStatement ps = null;
 		try {
-			ps = con.prepareStatement("SELECT * FROM account WHERE username=?");
+			ps = con.prepareStatement("SELECT count(*) as t FROM account WHERE username=?");
 			ps.setString(1, account.getUsername());
 			resultSet = ps.executeQuery();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		int size = 0;
 		try {
 			resultSet.next();
+			size = Integer.parseInt(resultSet.getString("t"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			return false;
+			//e.printStackTrace();
 		}
-		return true;
+		
+		return size >= 1;
 	}
 	
 	// 检查用户名的名字和密码是否对应

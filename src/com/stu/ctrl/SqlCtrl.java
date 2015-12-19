@@ -7,7 +7,7 @@ import java.sql.Statement;
 public class SqlCtrl {
 	
 	private static String user = "root";
-	private static String pwd = "";
+	private static String pwd = "root";
 	
 	public static Connection getCon() {
 		Connection con = null;

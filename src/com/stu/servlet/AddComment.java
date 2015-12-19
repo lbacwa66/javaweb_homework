@@ -82,8 +82,9 @@ public class AddComment extends HttpServlet {
         System.out.println("AddComment: "+savePath);
         //获取上传的文件集合
         Collection<Part> parts = request.getParts();
+//        String header = parts.getHeader("content-disposition");
         
-        System.out.println("AddComment: "+ parts.size());
+        System.out.println("AddComment: parts.size()"+ parts.size());
         
         if (parts.size() == 0) {
         	return -1;
@@ -93,7 +94,7 @@ public class AddComment extends HttpServlet {
 //           Part part = request.getPart("file");//通过表单file控件(<insput type="file" name="file">)的名字直接获取Part对象
            //Servlet3没有提供直接获取文件名的方法,需要从请求头中解析出来
            //获取请求头，请求头的格式：form-data; name="file"; filename="snmp4j--api.zip"
-//           String header = part.getHeader("content-disposition");
+           
            //获取文件名
            int pid = CommentCtrl.newPicId();
            String fileName = pid + ".jpg";
@@ -101,6 +102,9 @@ public class AddComment extends HttpServlet {
            for (Part part : parts) {//循环处理上传的文件
                //获取请求头，请求头的格式：form-data; name="file"; filename="snmp4j--api.zip"
                String header = part.getHeader("content-disposition");
+               if (header.contains("filename") && header.split("filename")[1].length() < 4) {
+            	   return -1;
+               }
                //获取文件名
                //把文件写到指定路径
                part.write(savePath+File.separator+fileName);
