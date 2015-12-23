@@ -38,9 +38,13 @@
     <servlet-name>RefuseFriend</servlet-name>
     <servlet-class>com.stu.servlet.RefuseFriend</servlet-class>
   </servlet>
-    <servlet>
+  <servlet>
     <servlet-name>ChangeVisible</servlet-name>
     <servlet-class>com.stu.servlet.ChangeVisible</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Modify</servlet-name>
+    <servlet-class>com.stu.servlet.Modify</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Register</servlet-name>
@@ -70,8 +74,12 @@
     <servlet-name>RefuseFriend</servlet-name>
     <url-pattern>/RefuseFriend</url-pattern>
   </servlet-mapping>
-    <servlet-mapping>
+  <servlet-mapping>
     <servlet-name>ChangeVisible</servlet-name>
     <url-pattern>/ChangeVisible</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Modify</servlet-name>
+    <url-pattern>/Modify</url-pattern>
   </servlet-mapping>
 </web-app>

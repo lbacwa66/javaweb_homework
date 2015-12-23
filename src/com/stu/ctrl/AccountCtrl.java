@@ -100,19 +100,21 @@ public class AccountCtrl {
 		ResultSet resultSet = null;
 		PreparedStatement ps = null;
 		try {
-			ps = con.prepareStatement("SELECT * FROM account WHERE USERNAME=? and PWD=?");
+			ps = con.prepareStatement("SELECT count(*) as t FROM account WHERE USERNAME=? and PWD=?");
 			ps.setString(1, account.getUsername());
 			ps.setString(2, account.getPwd());
 			resultSet = ps.executeQuery();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		int size = 0;
 		try {
 			resultSet.next();
+			size = resultSet.getInt("t");
 		} catch (Exception e) {
 			return false;
 		}
-		return true;
+		return size > 0;
 	}
 	
 	// 通过id查找账号
@@ -165,7 +167,7 @@ public class AccountCtrl {
 		return list;
 	}
 	
-	// 返回所有用户
+	// 返回所有可见用户
 	public static List<Account> getVISIBLEAccountList() {
 		Connection con = SqlCtrl.getCon();
 		PreparedStatement ps = null;
@@ -191,7 +193,7 @@ public class AccountCtrl {
 		return list;
 	}
 	
-	// 返回所有用户
+	// 更改隐身状况
 	public static void changeVisible(Account account) {
 		Connection con = SqlCtrl.getCon();
 		PreparedStatement ps = null;
@@ -199,6 +201,24 @@ public class AccountCtrl {
 		try {
 			ps = con.prepareStatement("UPDATE account set VISIBLE=? where USER_ID=?");
 			ps.setInt(1, account.getVisible());
+			ps.setInt(2, account.getUser_id());
+			ps.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {			
+			SqlCtrl.closeStatement(ps);
+			SqlCtrl.closeCon(con);
+		}
+	}
+	
+	// 修改密码
+	public static void changePwd(Account account) {
+		Connection con = SqlCtrl.getCon();
+		PreparedStatement ps = null;
+		account.setVisible(account.getVisible() == Account.VISIBLE ? Account.UNVISIBLE : account.VISIBLE);
+		try {
+			ps = con.prepareStatement("UPDATE account set PWD=? where USER_ID=?");
+			ps.setString(1, account.getPwd());
 			ps.setInt(2, account.getUser_id());
 			ps.execute();
 		} catch (Exception e) {

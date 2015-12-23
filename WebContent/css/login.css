@@ -27,3 +27,8 @@ td.td_prompt {
     font-size: 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
+
+form {
+	padding : 50px;
+	background-color: rgba(102, 208, 256, 0.7);
+}
